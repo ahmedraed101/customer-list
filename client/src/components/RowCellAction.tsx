@@ -4,16 +4,27 @@ import WarningIcon from '@mui/icons-material/Warning'
 import Popup from './Popup'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import { useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { deleteCustomer } from '../utils/Customers'
 
 type RowCellActionProps = { row: Customer }
 export const RowCellAction = ({ row }: RowCellActionProps) => {
     const [open, setOpen] = useState(false)
+    const queryClient = useQueryClient()
+    const deleteMutation = useMutation({
+        mutationKey: ['customers', 'delete'],
+        mutationFn: deleteCustomer,
+        onSuccess: () => queryClient.refetchQueries(),
+    })
     return (
         <Popup
             inButton={
                 <MoreHorizIcon sx={{ color: 'darkcyan' }}></MoreHorizIcon>
             }
         >
+            <MenuItem onClick={() => alert('open edit modal')} disabled>
+                Edit Customer
+            </MenuItem>
             <MenuItem onClick={() => setOpen(true)}>Delete Customer</MenuItem>
             <Dialog open={open} onClose={() => setOpen(false)}>
                 <DialogTitle
@@ -35,8 +46,8 @@ export const RowCellAction = ({ row }: RowCellActionProps) => {
                     color='warning'
                     sx={{ fontSize: '20px' }}
                     onClick={() => {
+                        deleteMutation.mutate(row.id!)
                         setOpen(false)
-                        console.log('call delete function')
                     }}
                 >
                     Confirm

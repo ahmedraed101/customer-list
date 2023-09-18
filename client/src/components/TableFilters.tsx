@@ -92,21 +92,3 @@ const TableFilters = <TData,>({ table }: TableFiltersProps<TData>) => {
 }
 
 export default TableFilters
-
-// (table.getColumn(filter)?.getFilterValue() as string) ||
-//                         ''
-
-// const handleFilterChange = (
-//     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-// ): void => {
-//     if (String(filter).toLowerCase() === 'age') {
-//         table
-//             .getColumn(filter)
-//             ?.setFilterValue((old: [number, number]) => [
-//                 old?.[0],
-//                 e.target.value,
-//             ])
-//     } else {
-//         table.getColumn(filter)?.setFilterValue(e.target.value)
-//     }
-// }
